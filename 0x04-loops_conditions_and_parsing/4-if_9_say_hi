@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Using a while loop to display "Best School" 10 times.
+
+counter=0
+
+while [ $counter -le 10 ]
+do
+    # Use an if statement to handle the 9th iteration
+    if [ $counter -eq 9 ]; then
+        echo -e "Best School\nHi"
+    else
+        echo "Best School"
+    fi
+
+    ((counter++))
+done
