@@ -6,6 +6,4 @@ if [ -n "$pid" ]; then
 	    echo "Stopping 4-to_infinity_and_beyond process (PID: $pid)"
 	        # Send the SIGTERM signal to gracefully terminate the process
 		    kill -15 "$pid"
-	    else
-		        echo "4-to_infinity_and_beyond process not found"
 fi
