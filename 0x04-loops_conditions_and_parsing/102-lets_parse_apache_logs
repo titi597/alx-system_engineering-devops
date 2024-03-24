@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 # Using awk to extract and .
+<<<<<<< HEAD
 # display IP and HTTP status code from Apache log file
+=======
+#display IP and HTTP status code from Apache log file.
+
+>>>>>>> bdbb20ab3558828919d8861576979153fd682a27
 awk '{print $1, $9}' apache-access.log
