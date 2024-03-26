@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+
+# Update package index and install nginx
+apt-get update -y
+apt-get install nginx -y
+
+# Replace default nginx index.html with custom content
+echo "Hello World!" > /usr/share/nginx/html/index.html
+
+# Verify that nginx is listening on port 80
+if ! nc -z localhost 80; then
+    echo "Nginx is not listening on port 80. Please check the configuration."
+    exit 1
+
+# Restart nginx
+service nginx restart
