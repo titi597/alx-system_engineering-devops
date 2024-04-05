@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Function to display information about a subdomain
+get_subdomain_info() {
+    domain=$1
+    subdomain=$2
+    record_type=$(dig +short $subdomain.$domain | awk '{print toupper($1)}')
+    destination=$(dig +short $subdomain.$domain)
+    echo "The subdomain $subdomain is a $record_type record and points to $destination"
+}
+
+# Main function to audit subdomains
+audit_subdomains() {
+    domain=$1
+    if [ -z "$2" ]; then
+        subdomains=("www" "lb-01" "web-01" "web-02")
+    else
+        subdomains=("$2")
+    fi
+
+    for subdomain in "${subdomains[@]}"; do
+        get_subdomain_info $domain $subdomain
+    done
+}
+
+# Check if domain and subdomain parameters are provided
+if [ $# -eq 0 ]; then
+    echo "Please provide domain and subdomain parameters."
+    exit 1
+elif [ $# -eq 1 ]; then
+    audit_subdomains $1
+elif [ $# -eq 2 ]; then
+    audit_subdomains $1 $2
+else
+    echo "Invalid number of parameters."
+    exit 1
+fi
