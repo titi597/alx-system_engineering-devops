@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 # Function to print domain and subdomain information
 print_domain_subdomain () {
     local subdomain=$2
