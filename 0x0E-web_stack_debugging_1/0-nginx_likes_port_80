@@ -1,37 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# configures a server to listening on port 80 of all servers active IPv4 IPs
 
-# Step 1: Check Nginx configuration for errors
-nginx -t
-
-# Step 2: Start Nginx if it's not already running
-nginx_status=$(systemctl is-active nginx)
-if [ "$nginx_status" != "active" ]; then
-    systemctl start nginx
-fi
-
-# Step 3: Check if another service is already listening on port 80
-port_80_status=$(netstat -tuln | grep ":80 ")
-if [ -n "$port_80_status" ]; then
-    echo "Port 80 is already in use by another service:"
-    echo "$port_80_status"
-    exit 1
-fi
-
-# Step 4: Check firewall rules
-firewall_status=$(ufw status | grep "80")
-if [ -z "$firewall_status" ]; then
-    echo "Port 80 is not open in the firewall. Opening port 80..."
-    ufw allow 80
-fi
-
-# Step 5: Ensure Nginx is bound to all active IPv4 addresses
-ipv4_addresses=$(ip -4 addr show | grep inet | awk '{print $2}' | cut -d'/' -f1)
-for ip_address in $ipv4_addresses; do
-    # Update Nginx configuration to listen on all IPv4 addresses
-    sed -i "s/listen 80;/listen $ip_address:80;/g" /etc/nginx/sites-available/default
-done
-
-# Reload Nginx to apply changes
-systemctl reload nginx
-
-echo "Nginx configuration updated. Nginx is now listening on port 80 of all active IPv4 addresses."
+sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+sudo service nginx restart
